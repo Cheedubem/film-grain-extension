@@ -1,0 +1,74 @@
+<!doctype html>
+<!-- popup.html: the control panel shown when the extension icon is clicked. Logic is in popup.js. -->
+<html><head><meta charset="utf-8"><title>Fine Grain</title>
+<style>
+  /* Colors used throughout, defined once */
+  :root { --bg:#eef0f2; --ink:#1b1f24; --mute:#5f6873; --line:#d3d8de; --acc:#2a5bd7; }
+  * { box-sizing:border-box; }
+  body { width:290px; margin:0; padding:14px; background:var(--bg); color:var(--ink);
+         font:13px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif; }
+  header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  h1 { font-size:15px; margin:0; font-weight:650; }
+  /* One labeled control (label above, slider or dropdown below) */
+  .row { margin:10px 0; }
+  .row label { display:flex; justify-content:space-between; color:var(--mute); margin-bottom:3px; }
+  .row output { color:var(--ink); font-variant-numeric:tabular-nums; }
+  input[type=range] { width:100%; accent-color:var(--acc); }
+  select { width:100%; padding:5px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); }
+  /* Checkbox with its label beside it */
+  .check { display:flex; align-items:center; gap:8px; margin:8px 0; }
+  hr { border:0; border-top:1px solid var(--line); margin:12px 0; }
+  button { width:100%; padding:7px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); cursor:pointer; }
+  button:hover { border-color:var(--acc); }
+  button:focus-visible, input:focus-visible, select:focus-visible { outline:2px solid var(--acc); outline-offset:2px; }
+  /* Side-by-side buttons and the preset name box */
+  .inline { display:flex; gap:6px; margin:6px 0; }
+  input[type=text] { flex:1; min-width:0; padding:5px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); }
+  .inline button { width:auto; flex:1; }
+  .hint { color:var(--mute); font-size:12px; margin-top:8px; }
+</style></head>
+<body>
+  <!-- Title and master on/off switch -->
+  <header><h1>Fine Grain</h1>
+    <label class="check" style="margin:0"><input type="checkbox" id="enabled"> On</label></header>
+
+  <!-- Preset dropdown -->
+  <div class="row"><label for="preset">Preset</label><select id="preset"></select></div>
+  <!-- Sliders: each shows its current value in the <output> tag -->
+  <div class="row"><label for="intensity">Intensity <output id="o-intensity"></output></label>
+    <input type="range" id="intensity" min="0" max="100" step="1"></div>
+  <div class="row"><label for="size">Grain size <output id="o-size"></output></label>
+    <input type="range" id="size" min="1" max="4" step="0.1"></div>
+  <div class="row"><label for="softness">Softness <output id="o-softness"></output></label>
+    <input type="range" id="softness" min="0" max="3" step="0.1"></div>
+  <div class="row"><label for="contrast">Contrast <output id="o-contrast"></output></label>
+    <input type="range" id="contrast" min="20" max="200" step="5"></div>
+  <div class="row"><label for="fps">Speed (fps) <output id="o-fps"></output></label>
+    <input type="range" id="fps" min="6" max="30" step="1"></div>
+  <!-- How the grain mixes with the page -->
+  <div class="row"><label for="blend">Blend mode</label>
+    <select id="blend">
+      <option value="soft-light">Soft light (gentle)</option>
+      <option value="overlay">Overlay (stronger)</option>
+      <option value="hard-light">Hard light (harsh)</option>
+    </select></div>
+
+  <!-- On/off options -->
+  <div class="check"><input type="checkbox" id="animated"><label for="animated">Animated</label></div>
+  <div class="check"><input type="checkbox" id="mono"><label for="mono">Monochrome</label></div>
+  <div class="check"><input type="checkbox" id="fullscreenFix"><label for="fullscreenFix">Keep grain in video fullscreen</label></div>
+  <div class="check"><input type="checkbox" id="site"><label for="site" id="site-label">Disable on this site</label></div>
+
+  <hr>
+  <!-- Save, delete, and test-pattern buttons -->
+  <div class="inline"><input type="text" id="pname" maxlength="24" placeholder="Name this preset">
+    <button id="psave">Save</button></div>
+  <div class="inline"><button id="pdel" disabled>Delete preset</button>
+    <button id="pattern">Test pattern</button></div>
+  <hr>
+  <!-- Restore all defaults -->
+  <button id="reset">Reset to defaults</button>
+  <div class="hint">Hotkey: Alt+G toggles grain. Change it at chrome://extensions/shortcuts</div>
+  <!-- Logic lives in a separate file because extensions block inline scripts -->
+  <script src="popup.js"></script>
+</body></html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- pattern.html: a banding test page. Smooth gradients show banding clearly, so you can tune the grain by eye. -->
+<html><head><meta charset="utf-8"><title>Fine Grain - Banding test</title>
+<style>
+  /* Each bar is a smooth gradient. The dark ones band the worst. */
+  html,body{margin:0;height:100%;background:#000;color:#9aa3ad;font:13px system-ui,sans-serif}
+  .bar{height:11vh}
+  .dark{background:linear-gradient(90deg,#000,#2a2a2a)}
+  .mid{background:linear-gradient(90deg,#2a2a2a,#b0b0b0)}
+  .bright{background:linear-gradient(90deg,#b0b0b0,#fff)}
+  .blue{background:linear-gradient(90deg,#001029,#2a5bd7)}
+  .warm{background:linear-gradient(90deg,#1a0d05,#e0a060)}
+  .radial{height:30vh;background:radial-gradient(circle at 50% 50%,#8a8a8a,#000 70%)}
+  p{margin:8px 12px}
+</style></head>
+<body>
+  <p>Banding test. Open the Fine Grain popup and adjust. Dark ramps band the most.</p>
+  <div class="bar dark"></div><div class="bar mid"></div><div class="bar bright"></div>
+  <div class="bar blue"></div><div class="bar warm"></div><div class="radial"></div>
+  <!-- content.js is loaded here because extension pages are not covered by the normal automatic injection -->
+  <script src="content.js"></script>
+</body></html>
